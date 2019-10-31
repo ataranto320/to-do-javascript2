@@ -1,1 +1,1 @@
-# to-do-javascript2
+To-do list that allows user to add, edit, delete, mark complete and incomplete of daily tasks being imputed. 
