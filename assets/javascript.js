@@ -1,5 +1,5 @@
 //Event handling, user interaction is what starts the code execution.
-var taskInput=document.getElementById("new-task");//Add a new task.
+var taskInput=document.getElementById("item");//Add a new task.
 var addButton=document.getElementsByTagName("button")[0];//first button
 var incompleteTaskHolder=document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
 var completedTasksHolder=document.getElementById("completed-tasks");//completed-tasks
@@ -139,4 +139,46 @@ var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
 	for (var i=0; i<completedTasksHolder.children.length;i++){
 	//bind events to list items chldren(tasksIncompleted)
 		bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
-	}
+    }
+    
+//store list on local storage
+const form = document.querySelector('form')
+const ul = document.querySelector('ul')
+const button = document.querySelector('button')
+const input = document.getElementById('item')
+let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : []
+// or
+// if (localStorage.getItem('items')) {
+//     items = JSON.parse(localStorage.getItem('items'))
+// } else {
+//     items = []
+// }
+
+localStorage.setItem('items', JSON.stringify(itemsArray))
+const data = JSON.parse(localStorage.getItem('items'))
+
+const liMaker = text => {
+  const li = document.createElement('li')
+  li.textContent = text
+  ul.appendChild(li)
+}
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault()
+
+  itemsArray.push(input.value)
+  localStorage.setItem('items', JSON.stringify(itemsArray))
+  liMaker(input.value)
+  input.value = ''
+})
+
+data.forEach(item => {
+  liMaker(item)
+})
+
+button.addEventListener('click', function() {
+  localStorage.clear()
+  while (ul.firstChild) {
+    ul.removeChild(ul.firstChild)
+  }
+})
