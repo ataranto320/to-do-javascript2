@@ -1,4 +1,4 @@
-//Event handling, user interaction is what starts the code execution.
+//Event handling
 var taskInput=document.getElementById("item");//Add a new task.
 var addButton=document.getElementsByTagName("button")[0];//first button
 var incompleteTaskHolder=document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
@@ -22,7 +22,7 @@ var createNewTaskElement=function(taskString){
 
 	label.innerText=taskString;
 
-	//Each elements, needs appending
+	//Each element, needs appending
 	checkBox.type="checkbox";
 	editInput.type="text";
     
@@ -96,10 +96,10 @@ var taskCompleted=function(){
 
 var taskIncomplete=function(){
 		console.log("Incomplete Task...");
-//Mark task as incomplete.
+	//Mark task as incomplete.
 	//When the checkbox is unchecked
-		//Append the task list item to the #incomplete-tasks.
-		var listItem=this.parentNode;
+	//Append the task list item to the #incomplete-tasks.
+	var listItem=this.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
 			bindTaskEvents(listItem,taskCompleted);
 }
@@ -115,7 +115,7 @@ addButton.addEventListener("click",ajaxRequest);
 
 var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
 	console.log("bind list item events");
-//select ListItems children
+	//select ListItems children
 	var checkBox=taskListItem.querySelector("input[type=checkbox]");
 	var editButton=taskListItem.querySelector("button.edit");
 	var deleteButton=taskListItem.querySelector("button.delete");
@@ -129,24 +129,25 @@ var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
 }
 
 //cycle over incompleteTaskHolder ul list items
-	//for each list item
+//for each list item
 	for (var i=0; i<incompleteTaskHolder.children.length;i++){
     //bind events to list items chldren(tasksCompleted)
-		bindTaskEvents(incompleteTaskHolder.children[i],taskCompleted);
+	bindTaskEvents(incompleteTaskHolder.children[i],taskCompleted);
 	}
 
 //cycle over completedTasksHolder ul list items
 	for (var i=0; i<completedTasksHolder.children.length;i++){
 	//bind events to list items chldren(tasksIncompleted)
-		bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
+	bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
     }
     
 //store list on local storage
-const form = document.querySelector('form')
-const ul = document.querySelector('ul')
-const button = document.querySelector('button')
-const input = document.getElementById('item')
-let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : []
+// let itemsArray = []
+// const form = document.querySelector('form')
+// const ul = document.querySelector('ul')
+// const button = document.querySelector('button')
+// // const input = document.getElementById('item')
+// let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : []
 // or
 // if (localStorage.getItem('items')) {
 //     items = JSON.parse(localStorage.getItem('items'))
@@ -154,31 +155,57 @@ let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem
 //     items = []
 // }
 
-localStorage.setItem('items', JSON.stringify(itemsArray))
-const data = JSON.parse(localStorage.getItem('items'))
+// localStorage.setItem('items', 'incomplete-tasks', 'completed-tasks', JSON.stringify(itemsArray))
+// const data = JSON.parse(localStorage.getItem('items', 'incomplete-tasks', 'completed-tasks'))
 
-const liMaker = text => {
-  const li = document.createElement('li')
-  li.textContent = text
-  ul.appendChild(li)
-}
+// const liMaker = text => {
+//   const li = document.createElement('li')
+//   li.textContent = text
+//   ul.appendChild(li)
+// }
 
-form.addEventListener('submit', function(e) {
-  e.preventDefault()
+// form.addEventListener('submit', function(e) {
+//   e.preventDefault()
 
-  itemsArray.push(input.value)
-  localStorage.setItem('items', JSON.stringify(itemsArray))
-  liMaker(input.value)
-  input.value = ''
-})
+//   itemsArray.push(input.value)
+//   localStorage.setItem('items', 'incomplete-tasks', 'completed-tasks', JSON.stringify(itemsArray))
+//   liMaker(input.value)
+//   input.value = ''
+// })
 
-data.forEach(item => {
-  liMaker(item)
-})
+// data.forEach(item => {
+//   liMaker(item)
+// })
 
-button.addEventListener('click', function() {
-  localStorage.clear()
-  while (ul.firstChild) {
-    ul.removeChild(ul.firstChild)
-  }
-})
+// button.addEventListener('click', function() {
+//   localStorage.clear()
+//   while (ul.firstChild) {
+//     ul.removeChild(ul.firstChild)
+//   }
+// })
+
+/////
+// When users click "item"
+$("#item").on("click", function(event) {
+	// This line prevents the page from refreshing when a user hits "enter".
+	event.preventDefault();
+
+	// Clear the HTML from the greeting header
+	// $("#uncompleted-tasks", "#completed-tasks").html("");
+
+	// Grab the user input
+	var userinput = $("#item").val().trim();
+
+	// Clear absolutely everything stored in localStorage using localStorage.clear()
+	localStorage.clear();
+
+	// Store the username into localStorage using "localStorage.setItem"
+	localStorage.setItem("input", userinput);
+
+	// And display that name for the user using "localStorage.getItem"
+	$("#uncompleted-tasks", "#completed-tasks").text(localStorage.getItem("input"));
+
+  });
+
+  // By default (upon load) show the name stored in localStorage using "localStorage.getItem"
+  $("#uncompleted-tasks", "#completed-tasks").text(localStorage.getItem("input"));
