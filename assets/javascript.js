@@ -140,7 +140,28 @@ var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
 	//bind events to list items chldren(tasksIncompleted)
 	bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
     }
-    
+	
+	
+	//////
+	// Load the todos from localstorage.
+    // We need to use JSON.parse to turn the string retrieved from an array into a string
+	var list = JSON.parse(localStorage.getItem("todolist"));
+	
+	// Save the todos into localstorage.
+    // We need to use JSON.stringify to turn the list from an array into a string
+    localStorage.setItem("todolist", JSON.stringify(list));
+
+ 	// Checks to see if the todolist exists in localStorage and is an array currently
+    // If not, set a local list variable to an empty array
+    // Otherwise list is our current list of todos
+    if (!Array.isArray(list)) {
+      list = [];
+    }
+
+    // render our todos on page load
+    renderTodos(list);
+
+
 //store list on local storage
 // let itemsArray = []
 // const form = document.querySelector('form')
@@ -186,26 +207,26 @@ var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
 
 /////
 // When users click "item"
-$("#item").on("click", function(event) {
-	// This line prevents the page from refreshing when a user hits "enter".
-	event.preventDefault();
+// $("#item").on("click", function(event) {
+// 	// This line prevents the page from refreshing when a user hits "enter".
+// 	event.preventDefault();
 
-	// Clear the HTML from the greeting header
-	// $("#uncompleted-tasks", "#completed-tasks").html("");
+// 	// Clear the HTML from the greeting header
+// 	// $("#uncompleted-tasks", "#completed-tasks").html("");
 
-	// Grab the user input
-	var userinput = $("#item").val().trim();
+// 	// Grab the user input
+// 	var userinput = $("#item").val().trim();
 
-	// Clear absolutely everything stored in localStorage using localStorage.clear()
-	localStorage.clear();
+// 	// Clear absolutely everything stored in localStorage using localStorage.clear()
+// 	localStorage.clear();
 
-	// Store the username into localStorage using "localStorage.setItem"
-	localStorage.setItem("input", userinput);
+// 	// Store the username into localStorage using "localStorage.setItem"
+// 	localStorage.setItem("input", userinput);
 
-	// And display that name for the user using "localStorage.getItem"
-	$("#uncompleted-tasks", "#completed-tasks").text(localStorage.getItem("input"));
+// 	// And display that name for the user using "localStorage.getItem"
+// 	$("#uncompleted-tasks", "#completed-tasks").text(localStorage.getItem("input"));
 
-  });
+//   });
 
-  // By default (upon load) show the name stored in localStorage using "localStorage.getItem"
-  $("#uncompleted-tasks", "#completed-tasks").text(localStorage.getItem("input"));
+//   // By default (upon load) show the name stored in localStorage using "localStorage.getItem"
+//   $("#uncompleted-tasks", "#completed-tasks").text(localStorage.getItem("input"));
